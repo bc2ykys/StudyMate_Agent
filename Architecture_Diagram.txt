@@ -1,0 +1,101 @@
+================================================================
+SYSTEM ARCHITECTURE DIAGRAM - StudyMate
+Stage 1 - Item B | Copy this to paper/whiteboard for video/PPT
+================================================================
+
+ASCII FLOW (judges can read this directly):
+
+                        +----------------+
+                        |  USER GOAL     |
+                        | "Prepare me    |
+                        |  for test"     |
+                        +-------+--------+
+                                |
+                                v
+                        +-------+--------+
+                        | AGENT /        |
+                        | CONTROLLER     |
+                        | agent.py       |
+                        | Plans 5 steps  |
+                        | Decides tools  |
+                        +---+---+---+----+
+                            |   |   |
+              +-------------+   |   +-------------+
+              |                 |                 |
+              v                 v                 v
+     +--------+------+ +--------+------+ +--------+------+
+     | RETRIEVAL     | | MEMORY        | | PLANNING      |
+     | tools.py      | | memory_store  | | inside agent  |
+     | knowledge_    | | .py +         | | if fail ->    |
+     | base.txt      | | memory.json   | | replan        |
+     +-------+-------+ +-------+-------+ +-------+-------+
+             |                 |                 |
+             +--------+--------+--------+--------+
+                      |        |        |
+                      v        v        v
+                 +----+----+---+---+----+----+
+                 | TOOLS  | QUIZ  | WEB (mock)|
+                 | summary| eval  | external  |
+                 +----+---+---+---+----+------+
+                      |       |         |
+                      v       v         v
+                 +---------------------------+
+                 | EVALUATION / VERIFICATION |
+                 | score % + weak topics     |
+                 +------------+--------------+
+                              |
+                    +---------+----------+
+                    |                    |
+                    v                    v
+            +-------+------+    +--------+-------+
+            | ADAPT PATH   |    | SUCCESS PATH   |
+            | score < 100  |    | score = 100    |
+            | remedial     |    | save success   |
+            | notes + retry|    | finish         |
+            +-------+------+    +--------+-------+
+                    |                    |
+                    +---------+----------+
+                              |
+                              v
+                 +---------------------------+
+                 | HUMAN INTERACTION         |
+                 | CLI input / Streamlit UI  |
+                 | + full trace log shown    |
+                 +---------------------------+
+                              |
+                              v
+                 +---------------------------+
+                 | FAILURE HANDLING (3)      |
+                 | 1. retrieval miss->retry  |
+                 | 2. web timeout->retry->   |
+                 |    continue local-only    |
+                 | 3. wrong answer->remedial |
+                 +---------------------------+
+                              |
+                              v
+                 +---------------------------+
+                 | FINAL OUTCOME + MEMORY    |
+                 | score, weak list saved    |
+                 +---------------------------+
+
+COMPONENT TABLE:
+----------------------------------------------------------------
+Part              | File              | Role
+Agent/controller  | agent.py          | plans, decides, adapts
+Tools             | tools.py          | retrieval, quiz, eval, web
+External systems  | knowledge_base.txt| notes; mock web API
+Memory/state      | memory_store.py   | load/update memory.json
+Retrieval         | retrieve_notes()  | keyword search top-4
+Planning          | run() plan list   | 5 steps + branches
+Evaluation        | evaluate_answer() | per-Q check + percent
+Human interaction | main.py / app.py  | CLI + Streamlit + trace
+Failure handling  | agent.py branches | retry + degrade + remedial
+
+HOW TO DRAW FOR PPT (30 seconds):
+----------------------------------------------------------------
+Draw 5 boxes left to right:
+[GOAL] -> [AGENT BRAIN] -> [3 TOOLS: Notes/Quiz/Web]
+-> [CHECK SCORE] -> [ADAPT or FINISH]
+Draw a cylinder below labelled MEMORY connected to AGENT.
+Draw a lightning mark on WEB box labelled FAILS ONCE-RECOVERS.
+That one drawing covers all 9 required labels.

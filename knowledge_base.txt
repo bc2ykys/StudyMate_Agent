@@ -1,0 +1,13 @@
+AI AGENTS - TECH STUDY NOTES
+=======================
+
+1. An AI agent is a goal-driven system that plans steps, calls tools, checks results, and adapts until the full goal is done.
+2. The controller follows observe -> decide -> act -> evaluate -> adapt loop instead of answering once like a normal chatbot.
+3. Tools are functions the agent can call such as retrieve_notes for search, make_summary for notes, quiz generator, and web search.
+4. Memory stores past runs, weak topics, and history in memory.json so the next session starts smarter and more personal.
+5. Planning means breaking a goal into 5 steps and branching: if retrieval fails retry broader, if web fails retry then continue local.
+6. Retrieval searches local notes by keyword scoring and returns top chunks, replaceable later with vector DB like FAISS or Chroma.
+7. Evaluation checks each answer against expected keywords, computes score percent, and lists weak topics for remedial study.
+8. Human interaction happens through CLI input or Streamlit UI, and the full agent trace log is shown for judges to verify.
+9. Failure handling has 3 levels: retrieval miss retries broader, web timeout retries once then degrades to local, wrong answer triggers remedial.
+10. Common exam traps: agent = plans and uses tools (not one-shot answer), memory = runs plus weak topics, robustness = retry and continue on failure.

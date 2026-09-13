@@ -1,0 +1,88 @@
+================================================================
+StudyMate - ARCHITECTURE DOCUMENTATION
+================================================================
+
+1. GOAL OF ARCHITECTURE
+----------------------------------------------------------------
+Show a full agentic loop, not a single LLM call:
+observe -> decide -> act -> evaluate -> adapt, with memory.
+
+2. COMPONENTS
+----------------------------------------------------------------
+a) Agent / Controller (agent.py, class StudyMateAgent):
+   - Takes user goal.
+   - Makes a 5-step plan and prints it.
+   - Decides which tool to call at each step.
+   - Calls evaluator to verify.
+   - Re-plans if score is low or tool fails.
+   - Writes trace log for judges.
+
+b) Tools (tools.py):
+   1. retrieve_notes  - keyword search over knowledge_base.txt.
+   2. make_summary    - compresses chunks into bullet points.
+   3. generate_quiz   - makes 3 questions, easy + remedial levels.
+   4. evaluate_answer - keyword + alias check, gives score.
+   5. web_search_mock - simulated external API. Fails first time
+      on purpose to prove failure handling, succeeds on retry.
+
+c) External Systems:
+   - Local file knowledge_base.txt (acts as user notes).
+   - Simulated web API (can be replaced with real search API).
+   - Optional LLM API later (Gemini/OpenAI). Not needed now.
+
+d) Memory / State (memory_store.py + memory.json):
+   - Stores runs count, weak_topics list, history of last 20 runs.
+   - Loaded at start, updated at end.
+   - Next run reads weak topics first (personalization).
+
+e) Retrieval:
+   - Simple keyword scoring over local notes.
+   - Returns top 4 chunks. Can be swapped with FAISS/Chroma
+     + embeddings later without changing agent logic.
+
+f) Planning:
+   - Fixed 5-step skeleton + dynamic branch:
+     if retrieval empty -> retry with broader query.
+     if web fails -> retry once, else continue local-only.
+     if quiz score < 100 -> remedial path.
+
+g) Evaluation / Verification:
+   - evaluate_answer per question + total percent.
+   - Intermediate result printed before adaptation.
+
+h) Human Interaction:
+   - CLI input for answers, or Streamlit text boxes.
+   - Demo mode uses scripted answers so video needs no typing.
+
+i) Failure Handling (3 levels, all demoed):
+   1. Retrieval miss -> broader retry.
+   2. Web timeout -> one retry -> graceful degrade to local.
+   3. Wrong student answer -> remedial notes + weak-topic memory.
+
+3. DATA FLOW
+----------------------------------------------------------------
+Goal text
+  -> load_memory()
+  -> plan[]
+  -> retrieve_notes() -> chunks[]
+  -> make_summary() -> summary
+  -> web_search_mock() -> extra example or recovered failure
+  -> generate_quiz() -> Qs
+  -> answers (human or demo)
+  -> evaluate_answer() x 3 -> score%
+  -> if weak: remedial plan + update_after_run()
+  -> final outcome string + trace log
+
+4. WHY AGENTIC IS NECESSARY HERE
+----------------------------------------------------------------
+A normal chatbot would just answer "an agent is...".
+It would not: plan steps, call retrieval, quiz, grade,
+detect weakness, change plan, remember for next session.
+StudyMate does all of these autonomously after one goal.
+
+5. HOW TO EXTEND FOR FINALE
+----------------------------------------------------------------
+- Replace retrieve_notes with vector DB + embeddings.
+- Replace mock web with real Tavily/DuckDuckGo search.
+- Add real LLM for summary/quiz via API key in .env.
+- Agent loop stays same, only tools get smarter.

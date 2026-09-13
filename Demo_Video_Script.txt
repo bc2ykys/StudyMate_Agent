@@ -1,0 +1,70 @@
+================================================================
+DEMO VIDEO SCRIPT - 3 to 5 MINUTES | StudyMate
+Stage 1 - Item D | Record with phone/OBS screen recorder + voice
+================================================================
+
+SETUP BEFORE RECORDING (2 min):
+----------------------------------------------------------------
+1. Open terminal in StudyMate_Agent folder, maximize font.
+2. Run once: python main.py --demo (to warm up).
+3. Delete memory.json content back to {"runs":0,...} if you want
+   fresh run, OR keep it to show memory growing.
+4. Open knowledge_base.txt in second window to show source notes.
+5. Start screen recorder. Speak clearly. Show your face intro
+   for 10 sec if possible (builds trust).
+
+SPEAK + TYPE SCRIPT WITH TIMESTAMPS:
+----------------------------------------------------------------
+[0:00-0:30] GOAL
+Show terminal. Say:
+"Hi, I am [your name]. This is StudyMate, my agentic study
+agent for Tech Zephyr 4.0. My goal is: Prepare me for
+AI agents test from my own notes."
+Type: python main.py --demo
+Point to [GOAL] and [PLAN] lines as they appear.
+
+[0:30-1:30] DECISION + ACTION + INTERMEDIATE RESULT
+Say: "Agent planned 5 steps itself. First it decided to call
+retrieve_notes, not answer directly."
+Point to [DECISION], [ACTION], [EVIDENCE] lines.
+Open knowledge_base.txt quickly to prove answers come from
+user notes, not hallucination.
+Point to KEY POINTS summary.
+
+[1:30-2:30] FAILURE + ADAPTATION (MOST IMPORTANT FOR MARKS)
+Say: "Now watch failure handling. Web enrichment fails."
+Point to [FAILURE] line (simulated timeout).
+Say: "Agent did NOT stop. It retried and recovered, else
+continued with local notes. This is robustness."
+Point to [RECOVERY] line.
+
+[2:30-3:30] QUIZ + EVALUATION + ADAPTATION
+Say: "Now quiz + auto-checking. I kept one answer wrong on
+purpose to show adaptation."
+Point to [EVALUATE] CORRECT, WRONG, CORRECT lines.
+Point to [INTERMEDIATE] score 66%.
+Say: "Agent detected weak topic memory, gave remedial notes,
+and saved it to memory.json for next session."
+Point to [ADAPT] and [MEMORY] lines.
+Quickly open memory.json to show weak_topics saved.
+
+[3:30-4:00] FINAL OUTCOME
+Point to [FINAL] line. Say:
+"Goal partially met with adaptation. Full trace is visible.
+Code, README, and run steps are on GitHub. Thank you."
+Stop recording.
+
+CHECKLIST BEFORE UPLOAD:
+----------------------------------------------------------------
+- Length 3-5 min? Trim silence.
+- Shows full chain? Goal, Decision, Action, Intermediate,
+  Adaptation, Final - all visible? Yes in this script.
+- Shows at least 1 failure + recovery? Yes (web timeout).
+- Voice clear? Add subtitles in YouTube if accent is heavy.
+- Upload as Unlisted YouTube / Drive link + add link to README
+  and Unstop form.
+
+IF VIDEO IS TOO LONG:
+----------------------------------------------------------------
+Speed up typing to 1.25x, skip opening knowledge_base.txt,
+keep failure + quiz parts (they carry marks).

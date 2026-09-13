@@ -1,0 +1,6 @@
+# Core needs NOTHING extra - works with Python 3.10+ only.
+# Optional (only for web UI):
+streamlit>=1.30
+# Optional (only if you want real LLM later, not needed for submission):
+# openai>=1.0
+# google-generativeai>=0.3

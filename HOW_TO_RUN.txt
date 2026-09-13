@@ -1,0 +1,53 @@
+================================================================
+HOW TO RUN - FOR JUDGES | StudyMate
+Stage 1 - Item E | Runnable version instructions
+================================================================
+
+OPTION 1 - FASTEST (30 seconds, no install):
+----------------------------------------------------------------
+Need: Python 3.10+
+Steps:
+  1. Download / clone this repo.
+  2. cd StudyMate_Agent
+  3. python main.py --demo
+Expected: Full agentic run prints in terminal in ~10 seconds,
+including plan, retrieval, 1 failure + recovery, quiz 66%,
+adaptation, final outcome, memory update.
+
+OPTION 2 - INTERACTIVE (answer quiz yourself):
+----------------------------------------------------------------
+  python main.py --goal "Prepare me for AI agents test"
+Type answers when asked. Try one wrong answer to see the
+agent adapt and save weak topics.
+
+OPTION 3 - WEB APP:
+----------------------------------------------------------------
+  pip install -r requirements.txt
+  streamlit run app.py
+Open the local URL shown. Enter goal + answers, click Run Agent.
+Full trace appears in expander.
+
+OPTION 4 - NOTEBOOK (if judges prefer):
+----------------------------------------------------------------
+  python -c "import main"  # same logic importable
+  OR open main.py in VS Code and press Run.
+
+VERIFY IT WORKED:
+----------------------------------------------------------------
+- You see [GOAL], [PLAN], [DECISION], [ACTION], [RESULT],
+  [FAILURE], [RECOVERY], [EVALUATE], [ADAPT], [FINAL].
+- memory.json runs count increased by 1.
+- No API key was asked.
+
+IF SOMETHING FAILS:
+----------------------------------------------------------------
+- 'python not found' -> try 'py main.py --demo' on Windows.
+- 'No module named streamlit' -> use Option 1, streamlit is
+  optional only.
+- Everything else is offline, so no network needed.
+
+REPRODUCING THE DEMO VIDEO:
+----------------------------------------------------------------
+Exact command used in video: python main.py --demo
+Same scripted answers + same forced web failure every run
+(because of reset_mock), so judges get identical output.

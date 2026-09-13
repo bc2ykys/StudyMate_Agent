@@ -1,0 +1,96 @@
+================================================================
+PROBLEM AND SOLUTION BRIEF - StudyMate Agentic Study Agent
+Track 2: Education | Problem Statement 3: Autonomous Learning Planner
+Tech Zephyr 4.0 - Agentic AI Hackathon | IIT Bhubaneswar
+================================================================
+
+1. PROBLEM STATEMENT (Official PS 3 - Autonomous Learning Planner)
+----------------------------------------------------------------
+Official Problem: Build an autonomous learning-planning agent
+that continuously works toward a student's learning goal under
+changing performance, availability, and resource constraints.
+The system must inspect performance data, identify knowledge
+gaps, select appropriate resources, and replan when the
+student's performance or constraints change.
+
+Our Context: Students have large notes but no personal tutor.
+They read passively, do not test themselves, and repeat the
+same weak topics in exams. Generic chatbots give one answer
+and stop. They do not plan study, quiz, check, or remember
+what the student got wrong.
+
+2. TARGET USERS
+----------------------------------------------------------------
+- Class 9-12 and college students preparing for theory exams.
+- Teachers who want quick quiz + remedial material from tech notes.
+- Low-internet students (needs offline-first tool).
+
+3. WHY THIS NEEDS AN AGENTIC SOLUTION
+----------------------------------------------------------------
+A single chatbot answer is not enough because the task is a
+WORKFLOW, not a question:
+- Must read the right pages (retrieval).
+- Must decide order: notes -> summary -> quiz -> check.
+- Must VERIFY answers and score them.
+- Must ADAPT: if student fails memory question, teach it
+  again in simpler way and remember it for next time.
+- Must HANDLE FAILURE: if web/API fails, continue offline.
+Only a goal-driven agent with tools + memory + replanning
+can do this. A normal Q and A bot cannot.
+
+4. PROPOSED SOLUTION - StudyMate
+----------------------------------------------------------------
+User gives one goal: "Prepare me for AI agents test".
+Agent does:
+  Goal -> Plan (5 steps, shown on screen)
+       -> Retrieve top notes from knowledge_base.txt
+       -> Summarize into bullets
+       -> Try web enrichment (recovers if it fails)
+       -> Generate 3-question quiz
+       -> Evaluate answers with scores
+       -> Detect weak topics
+       -> Adapt: remedial notes + easier retry set
+       -> Save weak topics to memory.json
+       -> Final outcome + full trace
+
+Demo shows: 1 correct, 1 WRONG on purpose, 1 correct,
+plus 1 simulated web failure with successful retry.
+This proves Decision, Action, Adaptation, Robustness.
+
+5. EXPECTED IMPACT
+----------------------------------------------------------------
+- Students study actively (quiz + feedback) not passively.
+- Weak topics are caught early and remembered.
+- Works offline, so usable in hostels and villages.
+- Teachers can drop any subject notes file and reuse the
+  same agent (AI agents today, Python tomorrow).
+- Measurable: quiz score before vs after remedial.
+
+5B. PS 3 OFFICIAL WORKFLOW COMPLIANCE (for judges)
+----------------------------------------------------------------
+Official Requirement              | How StudyMate Satisfies It
+----------------------------------|----------------------------
+Analyze performance, find gaps    | evaluate_answer scores each Q;
+                                  | weak_topics list is built per run.
+Retrieve suitable resources       | retrieve_notes tool keyword-searches
+                                  | knowledge_base.txt, returns top chunks.
+Create a plan / schedule actions  | Agent prints a 5-step plan at start,
+                                  | selects remedial path when score drops.
+Track completed/missed activities | memory.json stores every run, score,
+                                  | and cumulative weak topics (last 20).
+Reassess progress                 | Score re-evaluated after every answer;
+                                  | remedial quiz generated if needed.
+Replan when performance changes   | If score < 100%, agent switches level:
+                                  | retrieves easier chunks, provides
+                                  | targeted revision notes.
+Verify revised plan               | Final outcome printed with explicit
+                                  | pass / partial-pass verdict.
+Tool failure + recovery demo      | web_search_mock fails first call,
+                                  | retries, recovers - shown live.
+
+
+6. SCOPE FOR ROUND 1 DEMO
+----------------------------------------------------------------
+One subject (AI agents basics), local notes file, CLI + optional
+Streamlit UI, 3-question quiz, JSON memory. Extensible to
+PDF upload, vector DB, real LLM in Finale.
